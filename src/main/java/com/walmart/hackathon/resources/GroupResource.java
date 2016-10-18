@@ -1,6 +1,7 @@
 package com.walmart.hackathon.resources;
 
 import java.math.BigInteger;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -44,7 +45,10 @@ public class GroupResource {
 		}else{
 			 groups= groupDao.findAll();
 		}
-		
+		for(UserGroup ug:groups){
+			ug.setMembers(userDao.findUsersByGroup(ug.getGroupId()));
+			
+		}
 		return groups;
 	}
 	

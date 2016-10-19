@@ -1,9 +1,11 @@
 package com.walmart.hackathon.resources;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
+import javax.websocket.server.PathParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -30,6 +32,15 @@ public class ItemResource {
 	public List<Item> getItems(){
 		List<Item> items =itemDao.findAll();
 		return items;
+	}
+	
+	@GET
+	@Path("{itemId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Item getItem(@PathParam("itemId") BigInteger itemd){
+		return itemDao.findOne(itemd);
+	
 	}
 	
 	 /**

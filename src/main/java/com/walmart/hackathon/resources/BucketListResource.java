@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -58,7 +59,7 @@ public class BucketListResource {
 		return bucketLists;
 	}
 	
-	 /**
+/**
      * Create new USER
      * @param user
      * @return new user
@@ -67,6 +68,14 @@ public class BucketListResource {
     @Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
     public BucketList save(@Valid BucketList bucketList) {
+    	bucketList.setStatus("open");
+    return bucketListDao.save(bucketList);
+    }
+    
+    @PUT
+    @Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+    public BucketList update(@Valid BucketList bucketList) {
     return bucketListDao.save(bucketList);
     }
    

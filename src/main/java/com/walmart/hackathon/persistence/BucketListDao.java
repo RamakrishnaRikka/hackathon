@@ -10,10 +10,9 @@ import com.walmart.hackathon.model.BucketList;
 
 public interface BucketListDao extends JpaRepository<BucketList,BigInteger>{
 
-	@Query("select b from BucketList b where b.userGroupId = ?1")
+	@Query("select b from BucketList b where b.userGroupId = ?1 and b.status <> 'deleted'")
 	public List<BucketList> fingByGroup(BigInteger groupId);
-	@Query("select b from BucketList b where b.userGroupId = ?1 and b.userId=?2")
-	public List<BucketList> findByGroupAndUser(BigInteger groupId,
-			BigInteger userId);   
+	@Query("select b from BucketList b where b.userGroupId = ?1 and b.userId=?2 and b.status <> 'deleted'")
+	public List<BucketList> findByGroupAndUser(BigInteger groupId,BigInteger userId);   
 
 }

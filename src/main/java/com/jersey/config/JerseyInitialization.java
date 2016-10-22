@@ -4,8 +4,8 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.ServerProperties;
 
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
-import com.walmart.hackathon.resources.BucketListResource;
-import com.walmart.hackathon.resources.GroupResource;
+//import com.walmart.hackathon.resources.BucketListResource;
+//import com.walmart.hackathon.resources.GroupResource;
 import com.walmart.hackathon.resources.ItemResource;
 import com.walmart.hackathon.resources.UserResource;
 

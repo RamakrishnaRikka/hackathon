@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.jersey</groupId>
-	<artifactId>SharedKart</artifactId>
+	<artifactId>hackathon-rest</artifactId>
 	<version>1.0-SNAPSHOT</version>
 
 	<parent>

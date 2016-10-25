@@ -7,7 +7,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 public class HackUser {
@@ -33,6 +36,17 @@ public class HackUser {
 	@NotNull
 	@Column(name = "password")
 	String password;
+	
+	@Transient
+	@JsonProperty	
+	Boolean valid ;
+	
+	public Boolean getValid() {
+		return valid;
+	}
+	public void setValid(Boolean valid) {
+		this.valid = valid;
+	}
 	/**
 	 * @return the userId
 	 */

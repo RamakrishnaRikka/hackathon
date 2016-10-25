@@ -8,7 +8,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 public class ItemUserMapping {
@@ -47,6 +50,25 @@ public class ItemUserMapping {
 	
 	@Column(name = "available_qty")
 	Integer availableQty;
+	
+	@Transient
+	@JsonProperty
+	Item item;
+
+
+	public Item getItem() {
+		return item;
+	}
+
+
+	public void setItem(Item item) {
+		this.item = item;
+	}
+
+
+	public void setItemUserMapingId(BigInteger itemUserMapingId) {
+		this.itemUserMapingId = itemUserMapingId;
+	}
 
 
 	public BigInteger getItemId() {

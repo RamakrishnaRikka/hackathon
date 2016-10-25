@@ -56,6 +56,9 @@ public class ItemResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public List<ItemUserMapping> getItems1(){
 		List<ItemUserMapping> items =itemUserDao.findAll();
+		for(ItemUserMapping itemUser:items){
+			itemUser.setItem(itemDao.findOne(itemUser.getItemId()));
+		}
 		return items;
 	}
 	
@@ -145,4 +148,16 @@ public class ItemResource {
 		return itemDao.findOne(itemId);
 	
 	}
+    
+    @POST
+    @Path("/itemuser/{itemId}")
+    @Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+    public ItemUserMapping saveItemuserById(@PathParam("itemId") BigInteger itemId) {
+    	
+    	List<ItemUserMapping> sharedItems = itemUserDao.getItemUsrDetailsbyId(itemId);
+		 return (ItemUserMapping) sharedItems;
+    	
+		   	
+}
 }

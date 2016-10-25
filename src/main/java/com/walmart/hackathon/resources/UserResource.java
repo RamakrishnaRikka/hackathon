@@ -12,6 +12,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.walmart.hackathon.model.HackUser;
+import com.walmart.hackathon.model.HackUserLogin;
 import com.walmart.hackathon.persistence.UserDao;
 
 @Path("/users")
@@ -44,4 +45,26 @@ public class UserResource {
     public HackUser save(@Valid HackUser user) {
         return userDao.save(user);
     }
+    @POST
+	@Path("/login")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public HackUser getUser(HackUserLogin hackUserLogin){
+		HackUser user =userDao.findUsersByEmail(hackUserLogin.getUserName());
+		if(null==user){
+			user = new HackUser();
+			user.setValid(false);
+		}
+		if(null != user && hackUserLogin.getPassword().equals(user.getPassword())){
+			user.setValid(true);
+		}
+		else{
+			user.setValid(false);
+		}
+		if(null!=user){
+			user.setPassword("iamafool");
+		}
+		
+		return user;
+	}
 }

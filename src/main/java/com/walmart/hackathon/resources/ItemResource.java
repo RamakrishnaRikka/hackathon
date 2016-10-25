@@ -1,7 +1,10 @@
 package com.walmart.hackathon.resources;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -61,13 +64,47 @@ public class ItemResource {
     		items = itemUserDao.getItemUsrDetailsbyId(itemId);
 	
     	}else {
-		 items =itemUserDao.findAll();		
+		 items =itemUserDao.findAll();
+		
 	}
-	for(ItemUserMapping itemUser:items){
-		itemUser.setItem(itemDao.findOne(itemUser.getItemId()));
-	}
-	return items;
+    	for(ItemUserMapping itemUser:items){
+			itemUser.setItem(itemDao.findOne(itemUser.getItemId()));
+		}
+		return items;
     }
+    
+    @GET
+    @Path("itemByGroup")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Map<Integer, List<ItemUserMapping>> getItembyGroup(
+			@QueryParam("itemId") BigInteger itemId) {
+		List<ItemUserMapping> items = null;
+		if (itemId != null) {
+			items = itemUserDao.getItemUsrDetailsbyId(itemId);
+
+		} else {
+			items = itemUserDao.findAll();
+			for (ItemUserMapping itemUser : items) {
+				itemUser.setItem(itemDao.findOne(itemUser.getItemId()));
+			}
+		}
+		
+		Map<Integer, List<ItemUserMapping>> map = new HashMap<Integer, List<ItemUserMapping>>();
+		
+		for(ItemUserMapping itemuser:items){
+			if(null==map.get(itemuser.getGroupId())){
+				List<ItemUserMapping> newList =new ArrayList<ItemUserMapping>();
+				newList.add(itemuser);
+				map.put(itemuser.getGroupId(),newList);
+			}
+			else{
+				List<ItemUserMapping> oldList = map.get(itemuser.getGroupId());
+				oldList.add(itemuser);
+			}
+		 }
+		return map;
+	}
 	
 	 /**
      * Create new itemuser

@@ -11,6 +11,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import com.walmart.hackathon.model.Item;
@@ -54,13 +55,19 @@ public class ItemResource {
     @Path("itemuser")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public List<ItemUserMapping> getItems1(){
-		List<ItemUserMapping> items =itemUserDao.findAll();
+	public List<ItemUserMapping> getItems1(@QueryParam("itemId")  BigInteger itemId){
+    	List<ItemUserMapping> items =null;
+    	if(itemId!=null) {
+    		items = itemUserDao.getItemUsrDetailsbyId(itemId);
+	
+    	}else {
+		 items =itemUserDao.findAll();
 		for(ItemUserMapping itemUser:items){
 			itemUser.setItem(itemDao.findOne(itemUser.getItemId()));
 		}
-		return items;
 	}
+		return items;
+    }
 	
 	 /**
      * Create new itemuser
@@ -72,13 +79,15 @@ public class ItemResource {
     @Path("itemuser")
     @Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-    public ItemUserMapping saveItemuser(@Valid ItemUserMapping itemUserMapping) {
+    public ItemUserMapping saveItemuser(  @Valid ItemUserMapping itemUserMapping ) {
     	ItemUserMapping itemUserMappingobj =null;
     	Integer availableQty =0;
     	Integer newAvailableQty = 0;
     	int sharedQuantity =0;
     	int availablereservedQuantity;
     	Integer groupId=null;
+    	
+    	
     	
     	try{ 
     	Item myitem=itemDao.findOne(itemUserMapping.getItemId());    	
@@ -149,15 +158,4 @@ public class ItemResource {
 	
 	}
     
-    @POST
-    @Path("/itemuser/{itemId}")
-    @Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-    public ItemUserMapping saveItemuserById(@PathParam("itemId") BigInteger itemId) {
-    	
-    	List<ItemUserMapping> sharedItems = itemUserDao.getItemUsrDetailsbyId(itemId);
-		 return (ItemUserMapping) sharedItems;
-    	
-		   	
-}
 }

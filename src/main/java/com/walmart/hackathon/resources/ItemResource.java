@@ -61,12 +61,12 @@ public class ItemResource {
     		items = itemUserDao.getItemUsrDetailsbyId(itemId);
 	
     	}else {
-		 items =itemUserDao.findAll();
-		for(ItemUserMapping itemUser:items){
-			itemUser.setItem(itemDao.findOne(itemUser.getItemId()));
-		}
+		 items =itemUserDao.findAll();		
 	}
-		return items;
+	for(ItemUserMapping itemUser:items){
+		itemUser.setItem(itemDao.findOne(itemUser.getItemId()));
+	}
+	return items;
     }
 	
 	 /**

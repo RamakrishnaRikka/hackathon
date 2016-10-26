@@ -85,11 +85,11 @@ public class ItemResource {
 
 		} else {
 			items = itemUserDao.findAll();
-			for (ItemUserMapping itemUser : items) {
-				itemUser.setItem(itemDao.findOne(itemUser.getItemId()));
-			}
+			
 		}
-		
+		for (ItemUserMapping itemUser : items) {
+			itemUser.setItem(itemDao.findOne(itemUser.getItemId()));
+		}
 		Map<Integer, List<ItemUserMapping>> map = new HashMap<Integer, List<ItemUserMapping>>();
 		
 		for(ItemUserMapping itemuser:items){

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import javax.ws.rs.DELETE;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
@@ -194,5 +194,14 @@ public class ItemResource {
 		return itemDao.findOne(itemId);
 	
 	}
+	 @DELETE
+   	@Path("{delete}")
+   	@Produces(MediaType.APPLICATION_JSON)
+   	@Consumes(MediaType.APPLICATION_JSON)	
+   	public void deleteItem(@QueryParam("itemId") BigInteger itemId){
+   		
+   		 itemDao.delete(itemId);
+   	
+   	}
     
 }

@@ -33,6 +33,17 @@ public class Item {
 	@NotNull
 	@Column(name="total_qty")
 	Integer totalQty;
+	
+	@Column(name="image")
+	String imagee;
+
+	public String getImagee() {
+		return imagee;
+	}
+
+	public void setImagee(String imagee) {
+		this.imagee = imagee;
+	}
 
 	public String getItemName() {
 		return itemName;

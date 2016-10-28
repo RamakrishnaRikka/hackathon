@@ -31,5 +31,10 @@ public interface ItemUserDao extends JpaRepository<ItemUserMapping,Integer>{
 	public List<Integer> getMaxGrpId(BigInteger itemId);
 	@Query("select i from ItemUserMapping i where i.itemId=?1")
 	public List<ItemUserMapping> getItemUsrDetailsbyId(BigInteger itemIdShared);
+	
+	@Query("select i from ItemUserMapping i where i.userId=?1 and i.status ='CLOSED'")
+	public List<ItemUserMapping> getItemUsrDetailsbyuserId(BigInteger userId);
+	
+	
 
 }

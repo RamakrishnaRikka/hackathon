@@ -1,5 +1,6 @@
 package com.walmart.hackathon.resources;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -9,10 +10,13 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import com.walmart.hackathon.model.HackUser;
 import com.walmart.hackathon.model.HackUserLogin;
+import com.walmart.hackathon.model.ItemUserMapping;
+import com.walmart.hackathon.persistence.ItemUserDao;
 import com.walmart.hackathon.persistence.UserDao;
 
 @Path("/users")
@@ -20,10 +24,12 @@ public class UserResource {
 	
 	
 	UserDao userDao;
+	ItemUserDao itemUserDao;
 	
 	@Inject
-	public UserResource(UserDao userDao) {
+	public UserResource(UserDao userDao, ItemUserDao itemUserDao) {
 		this.userDao=userDao;
+		this.itemUserDao=itemUserDao;
 	}
 	
 	@GET
@@ -67,4 +73,16 @@ public class UserResource {
 		
 		return user;
 	}
+
+    @GET
+   @Path("/userId")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public List<ItemUserMapping> getItemUserById(@QueryParam("userId") BigInteger userId){
+		
+		List<ItemUserMapping> itemUserMapping =itemUserDao.getItemUsrDetailsbyuserId(userId);
+		return itemUserMapping;
+	}
+    
+   
 }

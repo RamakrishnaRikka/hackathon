@@ -5,10 +5,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.ws.rs.DELETE;
+
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -131,11 +132,21 @@ public class ItemResource {
     	List<ItemUserMapping> sharedItems = itemUserDao.getItemUsrDetails(itemUserMapping.getItemId(),ItemUserDao.STATUS_OPEN);
     	if(myitem.getPerItemQty()-itemUserMapping.getSelectedQuantity()>=0) {
     	if((sharedItems==null || sharedItems.isEmpty() )) {
-    		itemUserMapping.setGroupId(1);
     		
+    		List<Integer> maxGrpsharedItems=itemUserDao.getMaxGrpId(itemUserMapping.getItemId());
+    		if(maxGrpsharedItems==null || maxGrpsharedItems.isEmpty() ){
+    			groupId =1;
+    			
+    		}else {
+    			int maxGrpsharedItemsGrpid =maxGrpsharedItems.get(0);
+    			groupId = maxGrpsharedItemsGrpid+1;
+    			
+    			
+    		}
     		newAvailableQty=myitem.getPerItemQty()-itemUserMapping.getSelectedQuantity();
     		itemUserMapping.setAvailableQty(newAvailableQty);
-    		groupId = itemUserMapping.getGroupId();
+    		//groupId = itemUserMapping.getGroupId();
+    		itemUserMapping.setGroupId(groupId);
     		itemUserMapping.setStatus(ItemUserDao.STATUS_OPEN);
     		itemUserMappingobj=itemUserDao.save(itemUserMapping);
     		
@@ -149,7 +160,7 @@ public class ItemResource {
     			}
     		}
     		if(null==groupId){
-    			List<Integer> maxGrpsharedItems=itemUserDao.getMaxGrpId(itemUserMapping.getItemId(), ItemUserDao.STATUS_OPEN);
+    			List<Integer> maxGrpsharedItems=itemUserDao.getMaxGrpId(itemUserMapping.getItemId());
     			int maxGrpsharedItemsGrpid =maxGrpsharedItems.get(0);
     			groupId = maxGrpsharedItemsGrpid+1;
     			itemUserMapping.setGroupId(groupId);
@@ -194,7 +205,8 @@ public class ItemResource {
 		return itemDao.findOne(itemId);
 	
 	}
-	 @DELETE
+    
+    @DELETE
    	@Path("{delete}")
    	@Produces(MediaType.APPLICATION_JSON)
    	@Consumes(MediaType.APPLICATION_JSON)	
